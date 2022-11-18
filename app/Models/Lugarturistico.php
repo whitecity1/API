@@ -12,7 +12,7 @@ class Lugarturistico extends Model
 
     protected $fillable=[
 
-      'lugar_turistico',
+      'lugar_turistico',   
        'imagen',
        'detalles',
        'horario_apertura',

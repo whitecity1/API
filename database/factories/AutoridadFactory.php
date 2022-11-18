@@ -22,7 +22,7 @@ class AutoridadFactory extends Factory
     {
         return [
         'nombre_entidad'=>$this->faker->name(),
-        'imagen'=>$this->faker->sentence(), 
+        'imagen'=>$this->faker->imageUrl(), 
         'telefono'=>$this->faker->phoneNumber(), 
         'correo'=>$this->faker->email(), 
         'mun_ubicado'=>$this->faker->name(), 

@@ -45,9 +45,16 @@ class RutaturisticaController extends Controller
             
         ]);
 
-        $rutaturistica=Rutas_Turistica::create($request->all());
+        // $rutaturistica=Rutas_Turistica::create($request->all());
 
-        return $rutaturistica;
+        // return $rutaturistica;
+        $rutaturistica =$request->all();
+        $file = $request->file("imagen");
+        $nombreArchivo = "img_" . time() . "." . $file->guessExtension();
+        $request->file('imagen')->storeAs('public/image', $nombreArchivo);
+        $rutaturistica['imagen'] = "$nombreArchivo";
+        Rutas_Turistica::create($rutaturistica);
+        return redirect('http://127.0.0.1:8000/listarutasturisticas');
     }
 
     /**
@@ -56,13 +63,11 @@ class RutaturisticaController extends Controller
      * @param  \App\Models\Rutaturistica  $rutaturistica
      * @return \Illuminate\Http\Response
      */
-    public function show(Rutas_Turistica $rutaturistica,$id)
+    public function show($id)
     {
 
-        // $category = Category::with(['posts'])->findOrFail($id);
         $rutaturistica = Rutas_Turistica::included()->findOrFail($id);
-       //$category = Category::included(); para probar los returns
-        return $rutaturistica;
+        return $rutaturistica;   
     }
 
     /**
@@ -74,22 +79,29 @@ class RutaturisticaController extends Controller
      */
     public function update(Request $request, Rutas_Turistica $rutaturistica)
     {
-        $request->validate([
-            'ruta_turistica' => 'required|max:255',
-            'descripcion' => 'required|max:255',
-            'municipio_ubicada' => 'required|max:255',
-            'direccion_ruta' => 'required|max:255',
-            'contactos' => 'required|max:255',
-            'h_apertura' => 'required|max:255',
-            'h_cierre' => 'required|max:255',
-            'tipo_rutaTur' => 'required|max:255',
-            'imagen' => 'required|max:255'.$rutaturistica->id,
+       
+        // $request->validate([
+        //     'ruta_turistica' => 'required|max:255',
+        //     'descripcion' => 'required|max:255',
+        //     'municipio_ubicada' => 'required|max:255',
+        //     'direccion_ruta' => 'required|max:255',
+        //     'contactos' => 'required|max:255',
+        //     'h_apertura' => 'required|max:255',
+        //     'h_cierre' => 'required|max:255',
+        //     'tipo_rutaTur' => 'required|max:255',
+        //     'imagen' => 'required|max:255'.$rutaturistica->id,
             
-        ]);
+        // ]);
 
         $rutaturistica->update($request->all());
-
-        return $rutaturistica;
+        // $fotografia =$request->all();
+        $file = $request->file("imagen");
+        $nombreArchivo = "img_" . time() . "." . $file->guessExtension();
+        $request->file('imagen')->storeAs('public/image', $nombreArchivo);
+        $rutaturistica['imagen'] = "$nombreArchivo";
+         //Rutas_Turistica::create($rutaturistica);
+        $rutaturistica->save();
+        return redirect('http://127.0.0.1:8000/listarutasturisticas');
     }
 
     /**

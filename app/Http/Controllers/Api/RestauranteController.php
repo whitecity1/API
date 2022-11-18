@@ -41,12 +41,18 @@ class RestauranteController extends Controller
             'direccion' => 'required|max:255',
             'apertura' => 'required|max:255',
             'cierre' => 'required|max:255',
-            
         ]);
 
-        $restaurante=Restaurante::create($request->all());
+        // $restaurante=Restaurante::create($request->all());
 
-        return $restaurante;
+        // return $restaurante;
+        $restaurante =$request->all();
+        $file = $request->file("imagen");
+        $nombreArchivo = "img_" . time() . "." . $file->guessExtension();
+        $request->file('imagen')->storeAs('public/image', $nombreArchivo);
+        $restaurante['imagen'] = "$nombreArchivo";
+        Restaurante::create($restaurante);
+        return redirect('http://127.0.0.1:8000/listarestaurantes');
     }
 
     /**
@@ -55,10 +61,8 @@ class RestauranteController extends Controller
      * @param  \App\Models\Restaurante  $restaurante
      * @return \Illuminate\Http\Response
      */
-    public function show(Restaurante $restaurante,$id)
+    public function show($id)
     {
-
-         
         $restaurante = Restaurante::included()->findOrFail($id);
         return $restaurante;
     }
@@ -72,17 +76,17 @@ class RestauranteController extends Controller
      */
     public function update(Request $request, Restaurante $restaurante)
     {
-        $request->validate([
-            'restaurante' => 'required|max:255',
-            'imagen' => 'required|max:255',
-            'telefono' => 'required|max:255',
-            'correo' => 'required|max:255',
-            'mun_ubicado' => 'required|max:255',
-            'direccion' => 'required|max:255',
-            'apertura' => 'required|max:255',
-            'cierre' => 'required|max:255'.$restaurante->id,
+        // $request->validate([
+        //     'restaurante' => 'required|max:255',
+        //     'imagen' => 'required|max:255',
+        //     'telefono' => 'required|max:255',
+        //     'correo' => 'required|max:255',
+        //     'mun_ubicado' => 'required|max:255',
+        //     'direccion' => 'required|max:255',
+        //     'apertura' => 'required|max:255',
+        //     'cierre' => 'required|max:255'.$restaurante->id,
             
-        ]);
+        // ]);
 
         $restaurante->update($request->all());
 

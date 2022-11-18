@@ -31,7 +31,7 @@ class PuntosatencionController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'mombre_puntoatencion' => 'required|max:255',
+            'nombre_puntoatencion' => 'required|max:255',
             'imagen' => 'required|max:255',
             'telefono' => 'required|max:255',
             'correo' => 'required|max:255',
@@ -39,12 +39,19 @@ class PuntosatencionController extends Controller
             'direccion' => 'required|max:255',
             'apertura' => 'required|max:255',
             'cierre' => 'required|max:255',
-            
         ]);
 
-        $punto=Puntosatencion::create($request->all());
+        // $punto=Puntosatencion::create($request->all());
 
-        return $punto;
+        // return $punto;
+
+        $puntosatencion =$request->all();
+        $file = $request->file("imagen");
+        $nombreArchivo = "img_" . time() . "." . $file->guessExtension();
+        $request->file('imagen')->storeAs('public/image', $nombreArchivo);
+        $puntosatencion['imagen'] = "$nombreArchivo";
+        Puntosatencion::create($puntosatencion);
+        return redirect('http://127.0.0.1:8000/listarpuntosatencion');
     }
 
     /**
@@ -53,7 +60,7 @@ class PuntosatencionController extends Controller
      * @param  \App\Models\Puntosatencion  $puntosatencion
      * @return \Illuminate\Http\Response
      */
-    public function show(Puntosatencion $puntosatencion,$id)
+    public function show($id)
     {
         $puntosatencion = Puntosatencion::included()->findOrFail($id);
         return $puntosatencion;
@@ -68,17 +75,17 @@ class PuntosatencionController extends Controller
      */
     public function update(Request $request, Puntosatencion $puntosatencion)
     {
-        $request->validate([
-            'mombre_puntoatencion' => 'required|max:255',
-            'imagen' => 'required|max:255',
-            'telefono' => 'required|max:255',
-            'correo' => 'required|max:255',
-            'mun_ubicado' => 'required|max:255',
-            'direccion' => 'required|max:255',
-            'apertura' => 'required|max:255',
-            'cierre' => 'required|max:255'.$puntosatencion->id,
+        // $request->validate([
+        //     'mombre_puntoatencion' => 'required|max:255',
+        //     'imagen' => 'required|max:255',
+        //     'telefono' => 'required|max:255',
+        //     'correo' => 'required|max:255',
+        //     'mun_ubicado' => 'required|max:255',
+        //     'direccion' => 'required|max:255',
+        //     'apertura' => 'required|max:255',
+        //     'cierre' => 'required|max:255'.$puntosatencion->id,
             
-        ]);
+        // ]);
 
         $puntosatencion->update($request->all());
 

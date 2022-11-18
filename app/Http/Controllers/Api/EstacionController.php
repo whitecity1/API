@@ -45,9 +45,16 @@ class EstacionController extends Controller
            
         ]);
 
-        $estacion=Estacion::create($request->all());
+        // $estacion=Estacion::create($request->all());
 
-        return $estacion;
+        // return $estacion;
+        $estacion =$request->all();
+        $file = $request->file("imagen");
+        $nombreArchivo = "img_" . time() . "." . $file->guessExtension();
+        $request->file('imagen')->storeAs('public/image', $nombreArchivo);
+        $estacion['imagen'] = "$nombreArchivo";
+        Estacion::create($estacion);
+        return redirect('http://127.0.0.1:8000/listarestacioneservicio');
     }
 
     /**
@@ -56,7 +63,7 @@ class EstacionController extends Controller
      * @param  \App\Models\Estacion  $estacion
      * @return \Illuminate\Http\Response
      */
-    public function show(Estacion $estacion,$id)
+    public function show($id)
     {
         
         $estacion = Estacion::included()->findOrFail($id);
@@ -86,8 +93,14 @@ class EstacionController extends Controller
         ]);
 
         $estacion->update($request->all());
-
-        return $estacion;
+        // $fotografia =$request->all();
+        $file = $request->file("imagen");
+        $nombreArchivo = "img_" . time() . "." . $file->guessExtension();
+        $request->file('imagen')->storeAs('public/image', $nombreArchivo);
+        $estacion['imagen'] = "$nombreArchivo";
+        // Fotografia::create($fotografia);
+        $estacion->save();
+        return redirect('http://127.0.0.1:8000/listarestacioneservicio');
     }
 
     /**
@@ -98,6 +111,7 @@ class EstacionController extends Controller
      */
     public function destroy(Estacion $estacion)
     {
+       
         $estacion->delete();
         return $estacion;
     }

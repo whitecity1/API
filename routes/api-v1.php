@@ -18,6 +18,8 @@ use App\Http\Controllers\Api\ConvenioController;
 use App\Http\Controllers\Api\LugarturisticoController;
 use App\Http\Controllers\Api\TipopersonaController;
 use App\Http\Controllers\Api\NotificacionController;
+use App\Http\Controllers\Api\TipoconvenioController;
+use App\Http\Controllers\Api\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -60,6 +62,10 @@ Route::apiResource('tipo_persona',TipopersonaController::class)->names('api.v1.t
 Route::apiResource('lugaresturisticos',LugarturisticoController::class)->names('api.v1.lugaresturisticos');
 
 Route::apiResource('notificaciones',NotificacionController::class)->names('api.v1.notificaciones');
+
+Route::apiResource('tipo_convenios',TipoconvenioController::class)->names('api.v1.tipo_convenios');
+
+Route::apiResource('users',UserController::class)->names('api.v1.users');
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();

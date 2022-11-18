@@ -30,7 +30,7 @@ class Rutas_AccesoFactory extends Factory
             'contacto'=>$this->faker->phoneNumber(),	
             'correo_empresa'=>$this->faker->sentence(),	
             'tipo_ruta'=>$this->faker->sentence(),	
-            'imagen'=>$this->faker->sentence()
+            'imagen'=>$this->faker->imageUrl(),
         ];
     }
 }

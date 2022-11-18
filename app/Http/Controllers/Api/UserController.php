@@ -35,20 +35,16 @@ class UserController extends Controller
             
             'nombres' => 'required|max:255',
             'apellidos' => 'required|max:255',
-            'documento' => 'required|max:255',
-            'direccion' => 'required|max:255',
-            'telefono' => 'required|max:255',
             'email' => 'required|max:255',
             'password' => 'required|max:255',
-            'tipo_persona_id' => 'required|max:255',
-            'notificacion_id' => 'required|max:255',
-
-            
+            'tipo_persona_id' => 'required|max:255',  
         ]);
+
 
         $user=User::create($request->all());
 
         return $user;
+        
     }
 
     /**
@@ -75,18 +71,11 @@ class UserController extends Controller
     {
        
         $request->validate([
-            
             'nombres' => 'required|max:255',
             'apellidos' => 'required|max:255',
-            'documento' => 'required|max:255',
-            'direccion' => 'required|max:255',
-            'telefono' => 'required|max:255',
             'email' => 'required|max:255',
-            'password' => 'required|max:255',
-            'tipo_persona_id' => 'required|max:255',
-            'notificacion_id' => 'required|max:255',
-
-            
+            'password' => 'max:255',
+            'tipo_persona_id' => 'required|max:255',  
         ]);
 
        

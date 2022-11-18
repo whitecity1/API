@@ -31,7 +31,6 @@ class AutoridadsController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            
             'nombre_entidad' => 'required|max:255',
             'imagen' => 'required|max:255',
             'telefono' => 'required|max:255',
@@ -40,13 +39,20 @@ class AutoridadsController extends Controller
             'direccion' => 'required|max:255',
             'apertura' => 'required|max:255',
             'cierre' => 'required|max:255',
-            
         ]);
 
-        $autoridad=Autoridad::create($request->all());
+        // $restaurante=Restaurante::create($request->all());
 
-        return $autoridad;
+        // return $restaurante;
+        $autoridad =$request->all();
+        $file = $request->file("imagen");
+        $nombreArchivo = "img_" . time() . "." . $file->guessExtension();
+        $request->file('imagen')->storeAs('public/image', $nombreArchivo);
+        $autoridad['imagen'] = "$nombreArchivo";
+        Autoridad::create($autoridad);
+        return redirect('http://127.0.0.1:8000/listarautoridades');
     }
+    
 
     /**
      * Display the specified resource.
@@ -54,7 +60,7 @@ class AutoridadsController extends Controller
      * @param  \App\Models\Autoridad  $autoridad
      * @return \Illuminate\Http\Response
      */
-    public function show(Autoridad $autoridad,$id)
+    public function show($id)
     {   
          $autoridad = Autoridad::included()->findOrFail($id);
          return $autoridad;
@@ -69,22 +75,26 @@ class AutoridadsController extends Controller
      */
     public function update(Request $request, Autoridad $autoridad)
     {
-        $request->validate([
+        // $request->validate([
             
-            'nombre_entidad' => 'required|max:255',
-            'imagen' => 'required|max:255',
-            'telefono' => 'required|max:255',
-            'correo' => 'required|max:255',
-            'mun_ubicado' => 'required|max:255',
-            'direccion' => 'required|max:255',
-            'apertura' => 'required|max:255',
-            'cierre' => 'required|max:255',
+        //     'nombre_entidad' => 'required|max:255',
+        //     'imagen' => 'required|max:255',
+        //     'telefono' => 'required|max:255',
+        //     'correo' => 'required|max:255',
+        //     'mun_ubicado' => 'required|max:255',
+        //     'direccion' => 'required|max:255',
+        //     'apertura' => 'required|max:255',
+        //     'cierre' => 'required|max:255',
             
-        ]);
+        // ]);
 
-        $autoridad->update($request->all());
-
-        return $autoridad;
+        $autoridad =$request->all();
+        $file = $request->file("imagen");
+        $nombreArchivo = "img_" . time() . "." . $file->guessExtension();
+        $request->file('imagen')->storeAs('public/image', $nombreArchivo);
+        $autoridad['imagen'] = "$nombreArchivo";
+        Autoridad::create($autoridad);
+        return redirect('http://127.0.0.1:8000/listarautoridades');
     
     }
 

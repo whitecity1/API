@@ -31,22 +31,31 @@ class EventoController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'evento' => 'required|max:255',
-            'municipio' => 'required|max:255',
-            'direccion' => 'required|max:255',
-            'horarios' => 'required|max:255',
-            'fecha_inicio' => 'required|max:255',
-            'fecha_fin' => 'required|max:255',
-            'descripcion' => 'required|max:255',
-            'tipo_evento' => 'required|max:255',
-            'imagen' => 'required|max:255',
-            'user_id'=> 'required',
-        ]);
+        
+        // $request->validate([
+        //     'evento' => 'required|max:255',
+        //     'municipio' => 'required|max:255',
+        //     'direccion' => 'required|max:255',
+        //     'horarios' => 'required|max:255',
+        //     'fecha_inicio' => 'required|max:255',
+        //     'fecha_fin' => 'required|max:255',
+        //     'descripcion' => 'required|max:255',
+        //     'tipo_evento' => 'required|max:255',
+        //     'imagen' => 'required|max:255',
+        //     'user_id'=> 'required',
+        // ]);
 
-        $evento=Evento::create($request->all());
+        // $evento=Evento::create($request->all());
 
-        return $evento;
+        // return $evento;
+        $evento =$request->all();
+        $file = $request->file("imagen");
+        $nombreArchivo = "img_" . time() . "." . $file->guessExtension();
+        $request->file('imagen')->storeAs('public/image', $nombreArchivo);
+        $evento['imagen'] = "$nombreArchivo";
+        Evento::create($evento);
+        // return $evento;
+     return redirect('http://127.0.0.1:8000/listareventos');
     }
 
     /**
@@ -55,10 +64,9 @@ class EventoController extends Controller
      * @param  \App\Models\Evento  $evento
      * @return \Illuminate\Http\Response
      */
-    public function show(Evento $evento,$id)
+    public function show($id)
     {
         $evento = Evento::included()->findOrFail($id);
-        
          return $evento;
     }
 
@@ -71,24 +79,29 @@ class EventoController extends Controller
      */
     public function update(Request $request, Evento $evento)
     {
-        $request->validate([
+        // $request->validate([
             
-            'evento' => 'required|max:255',
-            'municipio' => 'required|max:255',
-            'direccion' => 'required|max:255',
-            'horarios' => 'required|max:255',
-            'fecha_inicio' => 'required|max:255',
-            'fecha_fin' => 'required|max:255',
-            'descripcion' => 'required|max:255',
-            'tipo_evento' => 'required|max:255',
-            'imagen' => 'required|max:255'.$evento->id,
-            'user_id'=> 'required',
+        //     'evento' => 'required|max:255',
+        //     'municipio' => 'required|max:255',
+        //     'direccion' => 'required|max:255',
+        //     'horarios' => 'required|max:255',
+        //     'fecha_inicio' => 'required|max:255',
+        //     'fecha_fin' => 'required|max:255',
+        //     'descripcion' => 'required|max:255',
+        //     'tipo_evento' => 'required|max:255',
+        //     'imagen' => 'required|max:255'.$evento->id,
+        //     'user_id'=> 'required',
     
-        ]);
-
+        // ]);
         $evento->update($request->all());
-
-        return $evento;
+        // $fotografia =$request->all();
+        $file = $request->file("imagen");
+        $nombreArchivo = "img_" . time() . "." . $file->guessExtension();
+        $request->file('imagen')->storeAs('public/image', $nombreArchivo);
+        $evento['imagen'] = "$nombreArchivo";
+        // Fotografia::create($fotografia);
+        $evento->save();
+        return redirect('http://127.0.0.1:8000/listareventos');
     }
 
     /**

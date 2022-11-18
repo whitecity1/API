@@ -21,7 +21,7 @@ class FotografiaFactory extends Factory
     public function definition()
     {
         return [
-            'imagen'=>$this->faker->sentence(),
+            'imagen'=>$this->faker->imageUrl(),
             'nombre' =>$this->faker->name(),
             'descripcion' =>$this->faker->paragraph()
         ];

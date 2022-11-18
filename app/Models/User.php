@@ -21,20 +21,15 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        
         'nombres',
         'apellidos',
-        'documento',
-        'direccion',
-        'telefono',
         'email',
         'password',
-        'tipo_persona_id',
-        'notificacion_id', // Permite hacer la asignacion masiva
+        'tipo_persona_id', // Permite hacer la asignacion masiva
     ];
 
 
-    protected $allowIncluded=['tipo_persona', 'notificacion', 'eventos']; // Lista con las posibles relaciones que podemos enviar a travez de la URL
+    protected $allowIncluded=['tipo_persona','eventos']; // Lista con las posibles relaciones que podemos enviar a travez de la URL
 
     protected $allowFilter = ['id', 'nombres', 'apellidos'];
 

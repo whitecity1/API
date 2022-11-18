@@ -19,7 +19,7 @@ class PuntosAtencionFactory extends Factory
 
 
             'nombre_puntoatencion'=> $this->faker->sentence(),
-            'imagen'=>$this->faker->sentence(),
+            'imagen'=>$this->faker->imageUrl(),
             'telefono'=> $this->faker->phoneNumber(),
             'correo'=> $this->faker->email(),
             'mun_ubicado'=>$this->faker->sentence(),

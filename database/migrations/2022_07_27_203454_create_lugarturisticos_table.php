@@ -18,7 +18,6 @@ return new class extends Migration
             $table->string('lugar_turistico');
             $table->string('imagen');
             $table->text('detalles');
-            // $table->string('tipo_lugar');
             $table->time('horario_apertura');
             $table->time('horario_cierre');
             $table->string('municipio');
@@ -69,10 +68,6 @@ return new class extends Migration
             $table->unsignedBigInteger('rutas__turistica_id')->nullable();
             $table->foreign('rutas__turistica_id')->references('id')->on('rutas__turisticas')
             ->onDelete('set null');
-
-            // $table->unsignedBigInteger('clasificacion_id')->nullable();
-            // $table->foreign('clasificacion_id')->references('id')->on('clasificacions')
-            // ->onDelete('set null');
 
             $table->timestamps();
         });

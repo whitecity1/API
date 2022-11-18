@@ -20,16 +20,11 @@ class RegisterController extends Controller
     public function store(Request $request) {
 
         $request->validate([
-
             'nombres' => 'required|string|max:255',
             'apellidos' => 'required|string|max:255',
-            'documento' => 'required|string|max:255',
-            'direccion' => 'required|string|max:255',
-            'telefono' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:8',
             'tipo_persona_id' => 'required',
-            'notificacion_id' => 'required',
         ]);
 
         $user = User::create($request->all());
@@ -49,15 +44,10 @@ public function update(Request $request, User $user)
     $request->validate([
         'nombres' => 'required|string|max:255',
         'apellidos' => 'required|string|max:255',
-        'documento' => 'required|string|max:255',
-        'direccion' => 'required|string|max:255',
-        'telefono' => 'required|string|max:255',
         'email' => 'required|max:255|unique',
-        'password' => 'required|max:8'.$user->id,
+        'password' => 'max:8',
         'tipo_persona_id' => 'required',
-        'notificacion_id' => 'required',
-
-        
+     
     ]);
 
     $user->update($request->all());

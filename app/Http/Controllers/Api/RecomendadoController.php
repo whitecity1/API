@@ -30,16 +30,25 @@ class RecomendadoController extends Controller
      */
     public function store(Request $request)
     {
+
         $request->validate([
+
             'lugar_recomendado' => 'required|max:255',
+            'imagen' => 'required|max:255',
             'resenahistorica' => 'required|max:255',
             'calificaciones' => 'required|max:255',
             'user_id' => 'required',
         ]);
 
-        $recomendado=Recomendado::create($request->all());
+        // $fotografia=Fotografia::create($request->all());
 
-        return $recomendado;
+        $recomendado =$request->all();
+        $file = $request->file("imagen");
+        $nombreArchivo = "img_" . time() . "." . $file->guessExtension();
+        $request->file('imagen')->storeAs('public/image', $nombreArchivo);
+        $recomendado['imagen'] = "$nombreArchivo";
+        Recomendado::create($recomendado);
+        return redirect('http://127.0.0.1:8000/listarecomendados');
     }
 
     /**
@@ -48,10 +57,8 @@ class RecomendadoController extends Controller
      * @param  \App\Models\Recomendado  $recomendado
      * @return \Illuminate\Http\Response
      */
-    public function show(Recomendado $recomendado,$id)
+    public function show($id)
     {
-
-         
         $recomendado = Recomendado::included()->findOrFail($id);
         return $recomendado;
     }
@@ -65,17 +72,22 @@ class RecomendadoController extends Controller
      */
     public function update(Request $request, Recomendado $recomendado)
     {
-        $request->validate([
-            'lugar_recomendado' => 'required|max:255',
-            'resenahistorica' => 'required|max:255',
-            'calificaciones' => 'required|max:255',
-            'imagen' => 'required|max:255'.$recomendado->id,
-            'user_id' => 'required',
-        ]);
-
+        // $request->validate([
+        //     'lugar_recomendado' => 'required|max:255',
+        //     'resenahistorica' => 'required|max:255',
+        //     'calificaciones' => 'required|max:255',
+        //     'imagen' => 'required|max:255'.$recomendado->id,
+        //     'user_id' => 'required',
+        // ]);
         $recomendado->update($request->all());
-
-        return $recomendado;
+        // $fotografia =$request->all();
+        $file = $request->file("imagen");
+        $nombreArchivo = "img_" . time() . "." . $file->guessExtension();
+        $request->file('imagen')->storeAs('public/image', $nombreArchivo);
+        $recomendado['imagen'] = "$nombreArchivo";
+        // Fotografia::create($fotografia);
+        $recomendado->save();
+        return redirect('http://127.0.0.1:8000/listarecomendados');
     }
 
     /**

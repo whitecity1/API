@@ -16,9 +16,9 @@ class LugarturisticoController extends Controller
     public function index()
     {  
         $lugarturistico=Lugarturistico::included()
-        ->filter()
-        ->sort()
-        ->get();
+        ->filter() //filtrar
+        ->sort()   //permite buscar o filtrar de forma ascednte de acuerdo con el campo con el que se haga la consulta
+        ->get();   //Mostar los datos del archivo Android
         
       return $lugarturistico;
     }
@@ -44,9 +44,17 @@ class LugarturisticoController extends Controller
             'tipo_lugar' => 'required|max:255',
         ]);
 
-        $lugarturistico=Lugarturistico::create($request->all());
+        //$lugarturistico=Lugarturistico::create($request->all());
 
-        return $lugarturistico;
+        // return $lugarturistico;
+
+        $lugarturistico =$request->all();
+        $file = $request->file("imagen");
+        $nombreArchivo = "img_" . time() . "." . $file->guessExtension();
+        $request->file('imagen')->storeAs('public/image', $nombreArchivo);
+        $lugarturistico['imagen'] = "$nombreArchivo";
+        Lugarturistico::create($lugarturistico);
+        return redirect('http://127.0.0.1:8000/listarlugares');
     }
 
     /**
@@ -55,7 +63,7 @@ class LugarturisticoController extends Controller
      * @param  \App\Models\Lugarturistico  $lugarturistico
      * @return \Illuminate\Http\Response
      */
-    public function show(Lugarturistico $lugarturistico,$id)
+    public function show($id)
     {
 
     $lugarturistico = Lugarturistico::included()->findOrFail($id);
@@ -73,20 +81,20 @@ class LugarturisticoController extends Controller
     public function update(Request $request, Lugarturistico $lugarturistico)
     {
         
-        $request->validate([
-            'lugar_turistico' => 'required|max:255',
-            'imagen' => 'required|max:255',
-            'detalles' => 'required|max:255',
-            'horario_apertura' => 'required|max:255',
-            'horario_cierre' => 'required|max:255',
-            'municipio' => 'required|max:255',
-            'direccion' => 'required|max:255',
-            'telefono' => 'required|max:255',
-            'correo_electronico' => 'required|max:255',
-            'tipo_lugar' => 'required|max:255'.$lugarturistico->id,
+        // $request->validate([
+        //     'lugar_turistico' => 'required|max:255',
+        //     'imagen' => 'required|max:255',
+        //     'detalles' => 'required|max:255',
+        //     'horario_apertura' => 'required|max:255',
+        //     'horario_cierre' => 'required|max:255',
+        //     'municipio' => 'required|max:255',
+        //     'direccion' => 'required|max:255',
+        //     'telefono' => 'required|max:255',
+        //     'correo_electronico' => 'required|max:255',
+        //     'tipo_lugar' => 'required|max:255'.$lugarturistico->id,
        
     
-        ]);
+        // ]);
 
         $lugarturistico->update($request->all());
 

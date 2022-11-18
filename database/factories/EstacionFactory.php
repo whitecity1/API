@@ -22,7 +22,7 @@ class EstacionFactory extends Factory
     {
         return [
             'estacion_servicio'=>$this->faker->name(),
-            'imagen'=>$this->faker->sentence(),
+            'imagen'=>$this->faker->imageUrl(),
             'telefono'=>$this->faker->phoneNumber(),	
             'correo'=>$this->faker->email(),	
             'mun_ubicado'=>$this->faker->name(),	

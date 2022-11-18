@@ -11,7 +11,7 @@ class Puntosatencion extends Model
 {
     use HasFactory;
 
-    protected $fillable=['mombre_puntoatencion', 
+    protected $fillable=['nombre_puntoatencion', 
     'imagen', 
     'telefono', 
     'correo', 
@@ -22,7 +22,7 @@ class Puntosatencion extends Model
 
     protected $allowIncluded = ['puntosatencion']; // Lista con las posibles relaciones que podemos enviar a travez de la URL
 
-    protected $allowFilter = ['id', 'mombre_puntoatencion', 'mun_ubicado','telefono'];
+    protected $allowFilter = ['id', 'nombre_puntoatencion', 'mun_ubicado','telefono'];
 
     protected $allowSort = ['id', 'mombre_puntoatencion', 'mun_ubicado','telefono'];
 

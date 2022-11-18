@@ -28,7 +28,7 @@ class EventoFactory extends Factory
             'descripcion'=>$this->faker->paragraph(),
             'tipo_evento'=>$this->faker->sentence(),
            'user_id' =>User::inRandomOrder()->first()->id,
-            'imagen'=>$this->faker->sentence(),
+            'imagen'=>$this->faker->imageUrl(),
         ];
     }
 }

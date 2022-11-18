@@ -21,7 +21,7 @@ class ComentarioFactory extends Factory
     public function definition()
     {
         return [
-            'comentario'=>$this->faker->paragraph(),	
+            'comentario'=>$this->faker->sentence(),	
             'hora'=>$this->faker->time(),
             'fecha'=>$this->faker->date(),
             'calificaciones'=>$this->faker->sentence()

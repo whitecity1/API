@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreFotografia;
 use App\Models\Fotografia;
 use Illuminate\Http\Request;
+use PhpParser\Node\Expr\FuncCall;
 
 class FotografiaController extends Controller
 {
@@ -19,7 +21,7 @@ class FotografiaController extends Controller
         ->filter()
         ->sort()
         ->get();
-
+  
         return $fotografia;
     }
 
@@ -38,9 +40,15 @@ class FotografiaController extends Controller
             'descripcion' => 'required|max:255',
         ]);
 
-        $fotografia=Fotografia::create($request->all());
+        // $fotografia=Fotografia::create($request->all());
 
-        return $fotografia;
+        $fotografia =$request->all();
+        $file = $request->file("imagen");
+        $nombreArchivo = "img_" . time() . "." . $file->guessExtension();
+        $request->file('imagen')->storeAs('public/image', $nombreArchivo);
+        $fotografia['imagen'] = "$nombreArchivo";
+        Fotografia::create($fotografia);
+        return redirect('http://127.0.0.1:8000/listarfotografias');
     }
 
     /**
@@ -49,12 +57,12 @@ class FotografiaController extends Controller
      * @param  \App\Models\Fotografia  $fotografia
      * @return \Illuminate\Http\Response
      */
-    public function show(Fotografia $fotografia,$id)
+    public function show($id)
     {
-        
         $fotografia = Fotografia::included()->findOrFail($id);
         return $fotografia;
     }
+
 
     /**
      * Update the specified resource in storage.
@@ -63,18 +71,25 @@ class FotografiaController extends Controller
      * @param  \App\Models\Fotografia  $fotografia
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Fotografia $fotografia)
+    public function update(StoreFotografia $request, Fotografia $fotografia)
     {
-        $request->validate([
-            'imagen' => 'required|max:255',
-            'nombre' => 'required|max:255',
-            'descripcion' => 'required|max:255'.$fotografia->id,
-    
-        ]);
 
-        $fotografia->update($request->all());
+        // $request->validate([
+        //     'imagen.required' => 'Debe cargar una iagen',
+        //     'nombre' => 'required|max:255',
+        //     'descripcion' => 'required|max:255'.$fotografia->id,
+        // ]);
+        
+     $fotografia->update($request->all());
+        // $fotografia =$request->all();
+        $file = $request->file("imagen");
+        $nombreArchivo = "img_" . time() . "." . $file->guessExtension();
+        $request->file('imagen')->storeAs('public/image', $nombreArchivo);
+        $fotografia['imagen'] = "$nombreArchivo";
+        // Fotografia::create($fotografia);
+        $fotografia->save();
+        return redirect('http://127.0.0.1:8000/listarfotografias');
 
-        return $fotografia;
     }
 
     /**

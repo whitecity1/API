@@ -31,22 +31,30 @@ class HotelController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
+        // $request->validate([
 
-            'hotel' => 'required|max:255',
-            'imagen' => 'required|max:255',
-            'telefono' => 'required|max:255',
-            'correo' => 'required|max:255',
-            'mun_ubicado' => 'required|max:255',
-            'direccion' => 'required|max:255',
-            'apertura' => 'required|max:255',
-            'cierre' => 'required|max:255',
+        //     'hotel' => 'required|max:255',
+        //     'imagen' => 'required|max:255',
+        //     'telefono' => 'required|max:255',
+        //     'correo' => 'required|max:255',
+        //     'mun_ubicado' => 'required|max:255',
+        //     'direccion' => 'required|max:255',
+        //     'apertura' => 'required|max:255',
+        //     'cierre' => 'required|max:255',
             
-        ]);
+        // ]);
 
-        $hotel=Hotel::create($request->all());
+        // $hotel=Hotel::create($request->all());
 
-        return $hotel;
+        // return $hotel;
+        
+        $hotel =$request->all();
+        $file = $request->file("imagen");
+        $nombreArchivo = "img_" . time() . "." . $file->guessExtension();
+        $request->file('imagen')->storeAs('public/image', $nombreArchivo);
+        $hotel['imagen'] = "$nombreArchivo";
+        Hotel::create($hotel);
+        return redirect('http://127.0.0.1:8000/listarhoteles');
     }
 
     /**

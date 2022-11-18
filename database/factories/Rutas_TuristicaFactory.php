@@ -30,7 +30,7 @@ class Rutas_TuristicaFactory extends Factory
             'h_apertura'=>$this->faker->time(),
             'h_cierre'=>$this->faker->time(),
             'tipo_rutaTur'=>$this->faker->name(),
-            'imagen'=>$this->faker->sentence()
+            'imagen'=>$this->faker->imageUrl(),
         ];
     }
 }

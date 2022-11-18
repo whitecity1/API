@@ -31,21 +31,28 @@ class CcomercialController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'centrocomercial' => 'required|max:255',
-            'imagen' => 'required|max:255',
-            'telefono' => 'required|max:255',
-            'correo' => 'required|max:255',
-            'municipio' => 'required|max:255',
-            'direccion' => 'required|max:255',
-            'apertura' => 'required|max:255',
-            'cierre' => 'required|max:255',
-            
-        ]);
+            $request->validate([
+                'centrocomercial' => 'required|max:255',
+                'imagen' => 'required|max:255',
+                'telefono' => 'required|max:255',
+                'correo' => 'required|max:255',
+                'municipio' => 'required|max:255',
+                'direccion' => 'required|max:255',
+                'apertura' => 'required|max:255',
+                'cierre' => 'required|max:255',
+                
+            ]);
 
-        $ccomercial=Ccomercial::create($request->all());
+        // $ccomercial=Ccomercial::create($request->all());
 
-        return $ccomercial;
+        // return $ccomercial;
+        $ccomercial =$request->all();
+        $file = $request->file("imagen");
+        $nombreArchivo = "img_" . time() . "." . $file->guessExtension();
+        $request->file('imagen')->storeAs('public/image', $nombreArchivo);
+        $ccomercial['imagen'] = "$nombreArchivo";
+        Ccomercial::create($ccomercial);
+        return redirect('http://127.0.0.1:8000/listarcentroscomerciales');
     }
 
     /**
@@ -54,7 +61,7 @@ class CcomercialController extends Controller
      * @param  \App\Models\Ccomercial  $ccomercial
      * @return \Illuminate\Http\Response
      */
-    public function show(Ccomercial $ccomercial,$id)
+    public function show($id)
     {
         $ccomercial = Ccomercial::included()->findOrFail($id);
         return $ccomercial;
@@ -70,21 +77,27 @@ class CcomercialController extends Controller
     public function update(Request $request, Ccomercial $ccomercial)
     {
         
-        $request->validate([
-            'centrocomercial' => 'required|max:255',
-            'imagen' => 'required|max:255',
-            'telefono' => 'required|max:255',
-            'correo' => 'required|max:255',
-            'municipio' => 'required|max:255',
-            'direccion' => 'required|max:255',
-            'apertura' => 'required|max:255',
-            'cierre' => 'required|max:255'.$ccomercial->id,
+        // $request->validate([
+        //     'centrocomercial' => 'required|max:255',
+        //     'imagen' => 'required|max:255',
+        //     'telefono' => 'required|max:255',
+        //     'correo' => 'required|max:255',
+        //     'municipio' => 'required|max:255',
+        //     'direccion' => 'required|max:255',
+        //     'apertura' => 'required|max:255',
+        //     'cierre' => 'required|max:255'.$ccomercial->id,
             
-        ]);
+        // ]);
 
         $ccomercial->update($request->all());
-
-        return $ccomercial;
+        // $fotografia =$request->all();
+        $file = $request->file("imagen");
+        $nombreArchivo = "img_" . time() . "." . $file->guessExtension();
+        $request->file('imagen')->storeAs('public/image', $nombreArchivo);
+        $ccomercial['imagen'] = "$nombreArchivo";
+        // Fotografia::create($fotografia);
+        $ccomercial->save();
+        return redirect('http://127.0.0.1:8000/listarcentroscomerciales');
     }
 
     /**

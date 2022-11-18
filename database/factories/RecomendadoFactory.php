@@ -25,7 +25,7 @@ class RecomendadoFactory extends Factory
             'lugar_recomendado'=>$this->faker->name(), 
             'resenahistorica'=>$this->faker->sentence(), 
             'calificaciones'=>$this->faker->name(5), 
-            'imagen'=>$this->faker->sentence()
+            'imagen'=>$this->faker->imageUrl(),
         ];
     }
 }

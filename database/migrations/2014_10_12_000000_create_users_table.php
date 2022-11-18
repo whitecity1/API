@@ -17,9 +17,6 @@ return new class extends Migration
             $table->id();
             $table->string('nombres',50);
             $table->string('apellidos',50);
-            $table->string('documento',50);
-            $table->string('direccion',50);
-            $table->string('telefono',15);
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
@@ -32,11 +29,7 @@ return new class extends Migration
                   ->references('id')->on('tipo_personas')
                   ->onDelete('cascade');
 
-                  $table->unsignedBigInteger('notificacion_id');
-
-                  $table->foreign('notificacion_id')
-                        ->references('id')->on('notificacions')
-                        ->onDelete('cascade');
+          
      
         });
     }

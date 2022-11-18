@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
-use App\Models\Comentario;
+use App\Http\Controllers\Controller;
+use App\Models\Tipo_Convenio;
 use Illuminate\Http\Request;
 
-class ComentarioController extends Controller
+class TipoconvenioController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,8 +15,12 @@ class ComentarioController extends Controller
      */
     public function index()
     {
-        $coments = Comentario::all();
-        return view('comentarios.index')->with('coments', $coments); 
+        $tipoconvenios=Tipo_Convenio::included()
+        ->filter()
+        ->sort()
+        ->get();
+
+        return $tipoconvenios;
     }
 
     /**
@@ -25,7 +30,7 @@ class ComentarioController extends Controller
      */
     public function create()
     {
-        return view('comentarios.create');
+        return view('tipoconvenio.create');
     }
 
     /**
@@ -36,16 +41,14 @@ class ComentarioController extends Controller
      */
     public function store(Request $request)
     {
-        $coments = new Comentario();
-        $coments->id = $request->get('id');
-        $coments->comentario = $request->get('comentario');
-        $coments->fecha = $request->get('fecha');
-        $coments->hora = $request->get('hora');
-        $coments->calificaciones = $request->get('calificaciones');
-    
-        $coments->save();
+        $tipoconvenios = new Tipo_Convenio();
+        $tipoconvenios->id = $request->get('id');
+        $tipoconvenios->convenio = $request->get('convenio');
+        $tipoconvenios->anotaciones = $request->get('anotaciones');
 
-        return redirect('/comentarios');
+        $tipoconvenios->save();
+
+        return redirect('/tipoconvenio');
     }
 
     /**
@@ -56,7 +59,9 @@ class ComentarioController extends Controller
      */
     public function show($id)
     {
-        //
+        
+        $tipoconvenios = Tipo_Convenio::included()->findOrFail($id);
+        return $tipoconvenios;
     }
 
     /**
@@ -67,9 +72,9 @@ class ComentarioController extends Controller
      */
     public function edit($id)
     {
-        $coment = Comentario::find($id);
-        return view('comentarios.edit')->with('coment', $coment);
-    }
+        $tipoconvenio = Tipo_Convenio::find($id);
+        return view('tipoconvenio.edit')->with('tipoconvenio', $tipoconvenio);
+    }    
 
     /**
      * Update the specified resource in storage.
@@ -80,17 +85,14 @@ class ComentarioController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $coment = Comentario::find( $id);
-       // $coment->id = $request->get('id');
-        $coment->comentario = $request->get('comentario');
-        $coment->fecha = $request->get('fecha');
-        $coment->hora = $request->get('hora');
-        $coment->calificaciones = $request->get('calificaciones');
-    
-        $coment->save();
+        $tipoconvenio = Tipo_Convenio::find( $id);
+       
+        $tipoconvenio->convenio = $request->get('convenio');
+        $tipoconvenio->anotaciones = $request->get('anotaciones');
+      
+        $tipoconvenio->save();
 
-        return redirect('/comentarios');
-
+        return redirect('/tipoconvenio');
     }
 
     /**
@@ -101,8 +103,8 @@ class ComentarioController extends Controller
      */
     public function destroy($id)
     {
-        $coment = Comentario::find( $id);
-        $coment->delete();
-        return redirect('/comentarios');
+        $tipoconvenio = Tipo_Convenio::find( $id);
+        $tipoconvenio->delete();
+        return redirect('/tipoconvenio');
     }
 }

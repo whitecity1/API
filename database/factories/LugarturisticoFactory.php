@@ -27,7 +27,7 @@ class LugarturisticoFactory extends Factory
     {
         return [
             'lugar_turistico'=>$this->faker->name(),	
-            'imagen'=>$this->faker->sentence(),
+            'imagen'=>$this->faker->imageUrl(),
             'detalles'=>$this->faker->name(),
             'horario_apertura'=>$this->faker->time(),	
             'horario_cierre'=>$this->faker->time(),	
